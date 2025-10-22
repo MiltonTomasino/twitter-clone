@@ -144,6 +144,13 @@ model Message {
   createdAt DateTime @default(now())
 }
 
+model Session {
+  id String @id @default(uuid())
+  sid  String @unique
+  data String
+  expiresAt DateTime
+}
+
 enum RequestStatus {
   PENDING
   ACCEPTED
