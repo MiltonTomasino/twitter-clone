@@ -1,5 +1,4 @@
-const { PrismaClient } = require("../generated/prisma");
-const prisma = new PrismaClient();
+const prisma = require("../db/prisma");
 
 module.exports.getUserByUsername = async (username) => {
     return prisma.user.findUnique({ where: { username } });
