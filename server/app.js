@@ -4,6 +4,7 @@ const expressSession = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const prisma = require("./db/prisma");
 const PORT = process.env.PORT || 3000;
+const userRouter = require("./routes/user");
 require("dotenv").config();
 
 const app = express();
@@ -32,5 +33,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use("/user", userRouter);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
