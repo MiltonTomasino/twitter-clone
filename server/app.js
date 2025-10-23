@@ -4,7 +4,9 @@ const expressSession = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("./generated/prisma");
 const PORT = process.env.PORT || 3000;
+require("dotenv").config();
 
+const prisma = new PrismaClient();
 const app = express();
 
 app.use(express.json());
@@ -15,11 +17,11 @@ app.use(
         cookie: {
             maxAge: 1000 * 60 * 60
         },
-        secret: "askdubasd",
+        secret: process.env.SESSION_SECRET || "dev_secret",
         resave: false,
         saveUninitialized: false,
         store: new PrismaSessionStore(
-            new PrismaClient(),
+            prisma,
             {
                 checkPeriod: 1000 * 60 * 2,
                 dbRecordIdIsSessionId: true,
