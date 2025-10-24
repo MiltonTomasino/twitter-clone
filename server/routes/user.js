@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const controller = require("../controllers/userController");
 
-router.get("/check-auth", controller.checkAuth);
-router.post("/register", controller.registerUser);
-router.post("/login", controller.userLoggin);
-router.get("/logout", (req, res, next) => {
+router.get("/user/check-auth", controller.checkAuth);
+router.post("/user/register", controller.registerUser);
+router.post("/user/login", controller.userLoggin);
+router.get("/user/logout", (req, res, next) => {
     req.logout(function (error) {
         if (error) return next(error);
         
