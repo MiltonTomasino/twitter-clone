@@ -6,6 +6,7 @@ const prisma = require("./db/prisma");
 const PORT = process.env.PORT || 3000;
 const userRouter = require("./routes/user");
 require("dotenv").config();
+require("./passport")
 
 const app = express();
 

@@ -1,5 +1,6 @@
 const prisma = require("../db/prisma");
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 const saltRounds = 10;
 
 async function hashPassword(password) {
@@ -20,7 +21,7 @@ module.exports.registerUser = async (req, res) => {
         const { username, password } = req.body;
         const hashedPassword = await hashPassword(password);
 
-        const result = await prisma.user.findUnique({ where: { username: username } });
+        const result = await prisma.user.findUnique({ where: { username } });
         if (result) return res.status(400).json({ message: "User already exists." });
 
         const user = await prisma.user.create({
@@ -38,6 +39,20 @@ module.exports.registerUser = async (req, res) => {
         console.error("Error registering user: ", error);
         res.status(500).json({ message: "Error registering user" });
     }
+}
+
+module.exports.userLoggin = async (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+        if (err) return res.status(500).json({ error: "Server error." });
+
+        if (!user) return res.status(400).json({ error: "Invalid username or password." });
+
+        req.logIn(user, (error) => {
+            if (error) return res.status(500).json({ error: "Session error." });
+            
+            return res.status(200).json({ message: "Successfully logged in." });
+        })
+    })(req, res, next)
 }
 
 module.exports.checkAuth = async (req, res) => {
