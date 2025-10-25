@@ -1,5 +1,5 @@
 .form-body {
-    background-color: var(--dark-mode-chatbox);
+    /* background-color: var(--dark-mode-chatbox); */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -14,8 +14,8 @@
     align-items: center;
     width: 40%;
 
-    color: white;
-    background-color: var(--dark-mode-btn);
+    /* color: white; */
+    /* background-color: var(--dark-mode-btn); */
     /* height: 80px; */
     padding: 20px;
 }
@@ -27,7 +27,7 @@
     justify-content: center;
     gap: 10px;
 
-    background-color: white;
+    /* background-color: white; */
 
     border-left: 1px solid rgba(204, 204, 204);
     border-bottom: 1px solid rgba(204, 204, 204);

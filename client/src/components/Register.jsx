@@ -13,10 +13,7 @@ function Register() {
         setForm({
             ...form,
             [e.target.name]: e.target.value
-        });
-
-        console.log("Form info: ", form);
-        
+        });        
     };
 
     async function registerUser(e) {

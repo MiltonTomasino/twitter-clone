@@ -59,7 +59,9 @@ module.exports.checkAuth = async (req, res) => {
     try {
         if (!req.user) return res.status(401).json({ message: "Not Authorized", loggedIn: false });
 
-        return res.status(200).json({ loggedIn: true });
+        const { password, ...safeUser } = req.user;
+
+        return res.status(200).json({ loggedIn: true, user: safeUser });
 
     } catch (error) {
         console.error("User is not authenticated: ", error);

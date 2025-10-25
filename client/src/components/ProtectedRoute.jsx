@@ -1,28 +1,12 @@
 import { Navigate } from "react-router";
-import { useQuery } from "@tanstack/react-query";
-
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 function ProtectedRoute({ children }) {
 
-    const { isPending, data} = useQuery({
-        queryKey: ['check-auth'],
-        queryFn: async () => {    
-            const res = await fetch("/api/user/check-auth", {
-                method: "GET",
-                credentials: "include"
-            })
+    const user = useContext(UserContext);
 
-            if (!res.ok) return { loggedIn: false }
-
-            return res.json();
-        }
-            
-            
-    })
-
-    if (isPending) return <h1>Loading...</h1>
-
-    if (!data?.loggedIn) return <Navigate to="/login" replace />
+    if (!user?.loggedIn) return <Navigate to="/login" replace />
 
     return children;
 }
