@@ -70,5 +70,81 @@ module.exports.checkAuth = async (req, res) => {
 }
 
 module.exports.getProfile = async (req, res) => {
-    
+
+}
+
+module.exports.createChat = async (req, res) => {
+    try {
+        const { username } = req.body;
+        const userId = req.user.id;
+
+        let user = await prisma.user.findUnique({
+            where: { username },
+        });
+
+        if (!user) return res.status(401).json({ error: "User does not exist" });
+
+        let existingChat = await prisma.chat.findFirst({
+            where: {
+                AND: [
+                    { participants: { some: { userId: userId} } },
+                    { participants: { some: { userId: user.id } } }
+                ]
+            }
+        });
+
+        if (existingChat) return res.status(200).json({ error: "Chat already exists" });
+
+        let chat = await prisma.chat.create({
+            data: {
+                participants: {
+                    create: [
+                        { userId: userId },
+                        { userId: user.id }
+                    ]
+                }
+            },
+            include: { participants: true }
+        })
+
+        res.status(200).json({ chat });
+
+    } catch (error) {
+        console.error("Error creating chat: ", error);
+        res.status(500).json({ error: "Error creating chat" });
+    }
+}
+
+module.exports.getChats = async (req, res) => {
+    try {
+
+        const userId = req.user.id;
+
+        const chats = await prisma.chat.findMany({
+            where: {
+                participants: {
+                    some: { userId }
+                }
+            },
+            include: {
+                participants: {
+                    include: {
+                        user: true
+                    }
+                },
+                messages: {
+                    orderBy: { createdAt: "desc" },
+                    take: 1,
+                    include: { user: true }
+                },
+                
+            },
+            orderBy: { updatedAt: "desc" }
+        });
+
+        res.status(200).json({ chats });
+    } catch (error) {
+        console.error("Error fetching chats: ", error);
+        res.status(500).json({ error: "Error fetching chats" });
+    }
 }
