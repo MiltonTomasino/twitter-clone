@@ -1,11 +1,14 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login'
 import Register from './components/Register';
-import Home from './components/Home';
+import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
+import Home from './components/Home';
+import Profile from './components/Profile';
+import Messages from './components/Messages';
 import { useQuery } from '@tanstack/react-query';
 import { UserContext } from './context/UserContext';
-
+import Loading from './components/Loading';
 import './App.css'
 
 function App() {
@@ -27,7 +30,7 @@ function App() {
 
   if (error) return <h1>Error fetching auth</h1>
 
-  if (isLoading) return <h1>Loading...</h1>
+  if (isLoading) return <Loading />
 
   return (
     <UserContext.Provider value={data}>
@@ -39,10 +42,14 @@ function App() {
           path='/'
           element={
             <ProtectedRoute>
-              <Home />
+              <Layout />
             </ProtectedRoute>
           }
-          />
+          >
+            <Route index element={<Home />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/messages' element={<Messages />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

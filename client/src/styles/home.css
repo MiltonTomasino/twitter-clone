@@ -1,0 +1,30 @@
+.home-page {
+    border: 1px solid black;
+    height: 100vh;
+
+    display: flex;
+    justify-content: space-around;
+}
+
+.content {
+    border: 1px solid red;
+    min-width: 320px;
+    max-width: 70%;
+    flex-grow: 1;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-auto-rows: 1fr;
+}
+
+.leftbar {
+    border: 1px solid blue;
+}
+
+.main {
+    border: 1px solid green;
+}
+
+.rightbar {
+    border: 1px solid orange;
+}
