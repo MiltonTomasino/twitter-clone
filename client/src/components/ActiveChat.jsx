@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 
 let socket;
 
-function ActiveChat({ setActiveChat, activeChat }) {
+function ActiveChat({ handleCloseChat, activeChat }) {
 
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
@@ -15,11 +15,17 @@ function ActiveChat({ setActiveChat, activeChat }) {
 
         socket.emit("joinChat", activeChat.id);
 
+        socket.on("chatHistory", (msgs) => {
+            setMessages(msgs);
+        })
+
         socket.on("newMessage", (msg) => {
             setMessages(prev => [...prev, msg])
         })
 
         return () => {
+            socket.off("chatHistory");
+            socket.off("newMessage");
             socket.disconnect();
         };
     }, [activeChat.id])
@@ -35,7 +41,7 @@ function ActiveChat({ setActiveChat, activeChat }) {
 
     return (
         <>
-            <button onClick={() => setActiveChat(null)}>back</button>
+            <button onClick={() => handleCloseChat()}>back</button>
             <h1>Active chat</h1>
             <p>{activeChat.id}</p>
             <div className="messages-window">

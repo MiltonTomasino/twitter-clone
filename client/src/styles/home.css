@@ -22,7 +22,8 @@
 }
 
 .main {
-    border: 1px solid green;
+    /* border: 5px solid green; */
+    height: 100%;
 }
 
 .rightbar {

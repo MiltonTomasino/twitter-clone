@@ -43,7 +43,7 @@ function Messages() {
         }
     })
 
-    const {isLoading, data} = useQuery({
+    const {isLoading, data, refetch} = useQuery({
         queryKey: ["chats"],
         queryFn: async () => {
             const res = await fetch("/api/user/chats", {
@@ -66,7 +66,12 @@ function Messages() {
         setActiveChat(chat)
     }
 
-    if (activeChat) return <ActiveChat setActiveChat={setActiveChat} activeChat={activeChat} />
+    function handleCloseChat() {
+        setActiveChat(null);
+        refetch();
+    }
+
+    if (activeChat) return <ActiveChat handleCloseChat={handleCloseChat} activeChat={activeChat} />
 
     return (
         <div className="messages-container">
@@ -74,30 +79,30 @@ function Messages() {
             {isLoading ? (
                 <Loading />
             ) : (
-                data.chats.length > 0 ? (
-                    data.chats.map(chat => {
-                        const otherUser = chat.participants.find(
-                            (p) => p.userId !== context.user.id
-                        );
-                        // console.log("chat: ", chat);
-                        const otherUsername = otherUser?.user?.username;
-                        
-                        return (
-                            <div className="chat-icon" key={chat.id} onClick={() => changeActiveChat(chat)}>
-                                <p>
-                                    {otherUsername}
+                <div className="icon-container">
+                    {data.chats.length > 0 ? (
+                        data.chats.map(chat => {
+                            const otherUser = chat.participants.find(
+                                (p) => p.userId !== context.user.id
+                            );
+                            // console.log("chat: ", chat);
+                            const otherUsername = otherUser?.user?.username;
+                    
+                            return (
+                                <div className="chat-icon" key={chat.id} onClick={() => changeActiveChat(chat)}>
+                                    <p>{otherUsername}</p>
                                     {chat.messages.length  > 0 ? (
-                                        <p>{chat.messages[0]}</p>
+                                        <small>{chat.messages[0].text}</small>
                                     ) : (
                                         <></>
                                     )}
-                                </p>
-                            </div>
-                        )
-                    })
-                ) : (
-                    <p>No chats yet...</p>
-                )
+                                </div>
+                            )
+                        })
+                    ) : (
+                        <p>No chats yet...</p>
+                    )}
+                </div>
             )}
             <button onClick={() => setModalOpen(true)}>create chat</button>
             {modalOpen && (

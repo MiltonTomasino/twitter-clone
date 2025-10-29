@@ -48,18 +48,25 @@ app.use(passport.session());
 app.use("/api", userRouter);
 
 io.on("connection", (socket) => {
-    console.log("A user has connected");
 
-    socket.on("joinChat", (chatId) => {
+    socket.on("joinChat", async (chatId) => {
         socket.join(chatId);
+        const messages = await prisma.message.findMany({
+            where: { chatId },
+        })
         console.log(`User joined chat ${chatId}`);
-        
+        socket.emit("chatHistory", messages);
     });
 
-    socket.on("sendMessage", ({ chatId, message, userId }) => {
-        const msg = { text: message, userId, createdAt: new Date() };
-
-        io.to(chatId).emit("newMessage", msg);
+    socket.on("sendMessage", async ({ chatId, message, userId }) => {
+        const newMessage = await prisma.message.create({
+            data: {
+                userId,
+                chatId, 
+                text: message
+            }
+        })
+        io.to(chatId).emit("newMessage", newMessage);
     });
 
     socket.on("disconnect", () => {
