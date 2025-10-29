@@ -21,4 +21,7 @@ router.get("/user/:userId/profile", controller.getProfile);
 router.post("/user/chat", controller.createChat);
 router.get("/user/chats", controller.getChats);
 
+// home routes
+router.post("/user/post", controller.createPost);
+
 module.exports = router;

@@ -148,3 +148,20 @@ module.exports.getChats = async (req, res) => {
         res.status(500).json({ error: "Error fetching chats" });
     }
 }
+
+module.exports.createPost = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { text } = req.body;
+
+        console.log(`Create Post Data: ${userId}, ${text}` );
+        
+
+        const post = await prisma.post.create({ data: { userId, text } })
+
+        res.status(200).json({ post });
+    } catch (error) {
+        console.error("Error creating post: ", error);
+        res.status(500).json({ error: "Error creating post"})
+    }
+}

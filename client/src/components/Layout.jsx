@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import "../styles/home.css"
+import "../styles/layout.css"
 import Leftbar from "./Leftbar";
 
 function Layout() {
