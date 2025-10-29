@@ -49,6 +49,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/messages' element={<Messages />} />
+            <Route path='/messages/:chatId' element={<Messages />} />
           </Route>
         </Routes>
       </BrowserRouter>

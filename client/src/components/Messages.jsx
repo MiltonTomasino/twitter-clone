@@ -1,4 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { useState } from "react";
@@ -12,7 +13,8 @@ function Messages() {
     const [username, setUsername] = useState("");
     const [modalError, setModalError] = useState("");
     const context = useContext(UserContext);
-    const [activeChat, setActiveChat] = useState(null);
+    const { chatId } = useParams();
+    const navigate = useNavigate();
 
     const createChat = useMutation({
         mutationFn: async (username) => {
@@ -62,16 +64,14 @@ function Messages() {
         }
     })
 
-    function changeActiveChat(chat) {
-        setActiveChat(chat)
-    }
-
     function handleCloseChat() {
-        setActiveChat(null);
+        navigate("/messages")
         refetch();
     }
 
-    if (activeChat) return <ActiveChat handleCloseChat={handleCloseChat} activeChat={activeChat} />
+    const activeChat = data?.chats?.find(chat => chat.id === chatId);
+
+    if (chatId && activeChat) return <ActiveChat handleCloseChat={handleCloseChat} activeChat={activeChat} />
 
     return (
         <div className="messages-container">
@@ -89,7 +89,7 @@ function Messages() {
                             const otherUsername = otherUser?.user?.username;
                     
                             return (
-                                <div className="chat-icon" key={chat.id} onClick={() => changeActiveChat(chat)}>
+                                <div className="chat-icon" key={chat.id} onClick={() => navigate(`/messages/${chat.id}`)}>
                                     <p>{otherUsername}</p>
                                     {chat.messages.length  > 0 ? (
                                         <small>{chat.messages[0].text}</small>
