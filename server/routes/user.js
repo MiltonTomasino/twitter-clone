@@ -22,6 +22,7 @@ router.post("/user/chat", controller.createChat);
 router.get("/user/chats", controller.getChats);
 
 // home routes
+router.get("/user/posts", controller.getAllPosts);
 router.post("/user/post", controller.createPost);
 
 module.exports = router;

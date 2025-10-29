@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import "../styles/home.css"
+import Loading from "./Loading";
 
 function Home() {
 
@@ -15,7 +16,12 @@ function Home() {
     let {isLoading, data, error} = useQuery({
         queryKey: ["fetch-posts"],
         queryFn: async () => {
-            
+            const res = await fetch("/api/user/posts", {
+                method: "GET",
+                credentials: "include"
+            });
+
+            return res.json();
         }
     })
 
@@ -48,13 +54,23 @@ function Home() {
 
     console.log("UserContext: ", context);
 
+    if (isLoading) return <Loading />
+
     return (
         <>
             <h1>Home page</h1>
             <button onClick={() => logoutMutation.mutate()}>logout</button>
             <button onClick={() => setModalOpen(true)}>post</button>
             <div className="all-posts">
-
+                {data.posts.length > 0 ? (
+                    data.posts.map(post => {
+                        return (
+                            <div className="post" key={post.id}>
+                                {post.text}
+                            </div>
+                        )
+                    })
+                ) : (<p>No posts yet...</p>)}
             </div>
             {modalOpen && (
                 <div className="modal-background">

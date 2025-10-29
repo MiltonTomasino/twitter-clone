@@ -165,3 +165,34 @@ module.exports.createPost = async (req, res) => {
         res.status(500).json({ error: "Error creating post"})
     }
 }
+
+module.exports.getAllPosts = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const following = await prisma.follow.findMany({
+            where: { followerId: userId },
+            select: { followingId: true }
+        });
+
+        const followingIds = following.map(i => i.followingId);
+
+        const posts = await prisma.post.findMany({
+            where: {
+                OR: [
+                    { userId },
+                    { userId: { in: followingIds } }
+                ]
+            },
+            include: { user: { select: { username: true } } },
+            orderBy: { createdAt: "desc" }
+        });
+
+        res.status(200).json({ posts });
+
+    } catch (error) {
+        console.log("Error fetching posts: ", error);
+        res.status(500).json({ error: "Error fetching posts" })
+        
+    }
+}
