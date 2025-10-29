@@ -3,6 +3,7 @@ const controller = require("../controllers/userController");
 
 // account routes
 router.get("/user/check-auth", controller.checkAuth);
+router.post("/user", controller.getUser);
 router.post("/user/register", controller.registerUser);
 router.post("/user/login", controller.userLoggin);
 router.get("/user/logout", (req, res, next) => {
@@ -17,7 +18,7 @@ router.get("/user/logout", (req, res, next) => {
 });
 
 // profile routes
-router.get("/user/:userId/profile", controller.getProfile);
+router.get("/user/profile", controller.getProfile);
 router.post("/user/chat", controller.createChat);
 router.get("/user/chats", controller.getChats);
 

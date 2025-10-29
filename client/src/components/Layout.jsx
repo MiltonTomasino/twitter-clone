@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import "../styles/layout.css"
 import Leftbar from "./Leftbar";
+import Rightbar from "./Rightbar";
 
 function Layout() {
 
@@ -16,7 +17,7 @@ function Layout() {
                 </div>
 
                 <div className="rightbar">
-
+                    <Rightbar />
                 </div>
             </div> 
         </div>

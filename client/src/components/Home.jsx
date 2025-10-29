@@ -52,8 +52,6 @@ function Home() {
         }
     });
 
-    console.log("UserContext: ", context);
-
     if (isLoading) return <Loading />
 
     return (

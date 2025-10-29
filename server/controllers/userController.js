@@ -41,6 +41,28 @@ module.exports.registerUser = async (req, res) => {
     }
 }
 
+module.exports.getUser = async (req, res) => {
+    try {
+        const { username } = req.body;
+
+        const users = await prisma.user.findMany({
+            where: { username: { contains: username } },
+            select: {
+                id: true,
+                username: true,
+                profile: { select: { id: true } }
+            }
+        });
+
+        if (users.length === 0) return res.status(200).json({ error: "Users not found." });
+
+        res.status(200).json({ users });
+    } catch (error) {
+        console.error("Error fethcing user: ", error);
+        res.status(500).json({ message: "Error fetching user" });
+    }
+}
+
 module.exports.userLoggin = async (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
         if (err) return res.status(500).json({ error: "Server error." });
@@ -65,12 +87,33 @@ module.exports.checkAuth = async (req, res) => {
 
     } catch (error) {
         console.error("User is not authenticated: ", error);
-        res.status(500).json({ message: "User is not authenticated"})
+        res.status(500).json({ error: "User is not authenticated"});
     }
 }
 
 module.exports.getProfile = async (req, res) => {
+    try {
+            const { userId } = req.query;
 
+            const profile = await prisma.profile.findUnique({
+                where: { userId },
+                select: {
+                    name: true,
+                    bio: true,
+                    birthday: true,
+                    user: {
+                        select: {
+                            username: true
+                        }}
+                }
+            });
+
+            res.status(200).json({ profile })
+
+    } catch (error) {
+        console.error("Error fetching profile data: ", error);
+        res.status(500).json({ error: "Error fetching profile data"});
+    }
 }
 
 module.exports.createChat = async (req, res) => {
