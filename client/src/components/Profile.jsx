@@ -11,7 +11,7 @@ function Profile() {
 
     const id =  profileId || context.user.id;
 
-    const {isLoading, data} = useQuery({
+    const {isLoading: profileLoading, data: profileData} = useQuery({
         queryKey: ["fetch-profile", id],
         queryFn: async () => {
             const res = await fetch(`/api/user/profile?userId=${id}`, {
@@ -21,17 +21,47 @@ function Profile() {
 
             return res.json();
         }
+    });
+
+    const {isLoading: postLoading, data: postData} = useQuery({
+        queryKey: ["fetch-user-posts", id],
+        queryFn: async () => {
+            const res = await fetch(`/api/user/posts?userId=${id}`, {
+                method: "GET",
+                credentials: "include"
+            });
+
+            return res.json();
+        }
     })
 
-    if (isLoading) return <Loading />;
+    if (profileLoading || postLoading) return <Loading />;
 
-    console.log("Profile data: ", data);
+    console.log("Profile data: ", profileData);
+    console.log("Post data: ", postData);
+    
     
 
     return (
         <>
             <h1>Profile Page</h1>
-            <h1>User's Profile ID: {id}</h1>
+            <div className="profile-info">
+                <h1>{profileData.profile.name}</h1>
+                <small>{profileData.profile.user.username}</small>
+                <p>{profileData.profile.bio}</p>
+                <p>{profileData.profile.birthday || "no birthday yet"}</p>
+            </div>
+            <div className="profile-posts">
+                {postData.posts.length > 0 ? (
+                    postData.posts.map(post => {
+                        return (
+                            <div key={post.id}>
+                                <p>{post.text}</p>
+                            </div>
+                        )
+                    })
+                ) : (<p>No posts yet...</p>)}
+            </div>
         </>
     )
 };

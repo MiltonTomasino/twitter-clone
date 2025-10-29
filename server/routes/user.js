@@ -19,11 +19,12 @@ router.get("/user/logout", (req, res, next) => {
 
 // profile routes
 router.get("/user/profile", controller.getProfile);
+router.get("/user/posts", controller.getUserPosts);
 router.post("/user/chat", controller.createChat);
 router.get("/user/chats", controller.getChats);
 
 // home routes
-router.get("/user/posts", controller.getAllPosts);
+router.get("/user/all-posts", controller.getAllPosts);
 router.post("/user/post", controller.createPost);
 
 module.exports = router;

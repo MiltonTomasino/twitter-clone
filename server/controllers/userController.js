@@ -116,6 +116,20 @@ module.exports.getProfile = async (req, res) => {
     }
 }
 
+module.exports.getUserPosts = async (req, res) => {
+    try {
+            const { userId } = req.query;
+
+            const posts = await prisma.post.findMany({ where: { userId }});
+
+            res.status(200).json({ posts });
+
+    } catch (error) {
+        console.error("Error fetching user posts: ", error);
+        res.status(500).json({ error: "Error fetching user posts"});
+    }
+}
+
 module.exports.createChat = async (req, res) => {
     try {
         const { username } = req.body;
@@ -213,6 +227,9 @@ module.exports.getAllPosts = async (req, res) => {
     try {
         const userId = req.user.id;
 
+        console.log("userId: ", userId);
+        
+
         const following = await prisma.follow.findMany({
             where: { followerId: userId },
             select: { followingId: true }
@@ -220,13 +237,19 @@ module.exports.getAllPosts = async (req, res) => {
 
         const followingIds = following.map(i => i.followingId);
 
-        const posts = await prisma.post.findMany({
-            where: {
+        let whereClause = { userId };
+
+        if (followingIds.length > 0) {
+            whereClause = {
                 OR: [
                     { userId },
                     { userId: { in: followingIds } }
                 ]
-            },
+            }
+        }
+
+        const posts = await prisma.post.findMany({
+            where: whereClause,
             include: { user: { select: { username: true } } },
             orderBy: { createdAt: "desc" }
         });

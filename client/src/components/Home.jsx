@@ -16,7 +16,7 @@ function Home() {
     let {isLoading, data, error} = useQuery({
         queryKey: ["fetch-posts"],
         queryFn: async () => {
-            const res = await fetch("/api/user/posts", {
+            const res = await fetch("/api/user/all-posts", {
                 method: "GET",
                 credentials: "include"
             });
