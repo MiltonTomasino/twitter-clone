@@ -10,6 +10,9 @@ function Leftbar() {
                 <Link to="/messages">Messages</Link>
             </div>
             <div className="leftbar-item">
+                <Link to="/notifications">Notifications</Link>
+            </div>
+            <div className="leftbar-item">
                 <Link to="/profile">Profile</Link>
             </div>
         </>

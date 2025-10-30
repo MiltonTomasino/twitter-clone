@@ -22,6 +22,8 @@ router.get("/user/profile", controller.getProfile);
 router.get("/user/posts", controller.getUserPosts);
 router.post("/user/chat", controller.createChat);
 router.get("/user/chats", controller.getChats);
+router.get("/user/follow-status", controller.followStatus);
+router.post("/user/follow-request", controller.followRequest);
 
 // home routes
 router.get("/user/all-posts", controller.getAllPosts);

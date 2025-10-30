@@ -262,3 +262,47 @@ module.exports.getAllPosts = async (req, res) => {
         
     }
 }
+
+module.exports.followStatus = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { otherUser } = req.query;
+
+        const isFollowing = await prisma.follow.findUnique({
+            where: {
+                followerId_followingId: {
+                    followerId: userId,
+                    followingId: otherUser
+                }
+            }
+        });
+
+        res.status(200).json({ isFollowing: !!isFollowing})
+
+    } catch (error) {
+        console.log("Error fetching follow status: ", error);
+        res.status(500).json({ error: "Error follow status" });
+    }
+}
+
+module.exports.followRequest = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { otherUser } = req.query;
+
+        console.log(`Data: ${userId}, ${otherUser}`);
+        
+
+        const request = await prisma.followRequest.create({
+            data: {
+                senderId: userId,
+                receiverId: otherUser
+            }
+        });
+
+        res.status(200).json({ message: "successfully sent request." });
+    } catch (error) {
+        console.log("Error sending follow request: ", error);
+        res.status(500).json({ error: "Error sending follow request" });
+    }
+}

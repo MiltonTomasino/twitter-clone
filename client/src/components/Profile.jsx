@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import Loading from "./Loading";
 
 function Profile() {
@@ -35,16 +35,46 @@ function Profile() {
         }
     })
 
+    const {isLoading: followLoad, data: followData} = useQuery({
+        queryKey: ["fetch-following", id],
+        queryFn: async () => {
+            const res = await fetch(`/api/user/follow-status?otherUser=${id}`, {
+                method: "GET",
+                credentials: "include"
+            });
+
+            return res.json();
+        },
+        enabled: id !== context.user.id
+    })
+
+    const sendFollowRequest = useMutation({
+        mutationFn: async () => {
+            const res = await fetch(`/api/user/follow-request?otherUser=${id}`, {
+                method: "POST",
+                credentials: "include"
+            });
+
+            return res.json();
+        },
+    })
+
+
     if (profileLoading || postLoading) return <Loading />;
 
     console.log("Profile data: ", profileData);
     console.log("Post data: ", postData);
+    console.log("Follow status: ", followData);
+    
     
     
 
     return (
         <>
             <h1>Profile Page</h1>
+            {id !== context.user.id && (
+                followData?.isFollowing ? <button>unfollow</button> : <button onClick={() => sendFollowRequest.mutate()}>follow</button>
+            )}
             <div className="profile-info">
                 <h1>{profileData.profile.name}</h1>
                 <small>{profileData.profile.user.username}</small>

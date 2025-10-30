@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { UserContext } from './context/UserContext';
 import Loading from './components/Loading';
 import './App.css'
+import Notifications from './components/Notifications';
 
 function App() {
 
@@ -51,6 +52,7 @@ function App() {
             <Route path='/profile/:profileId' element={<Profile />} />
             <Route path='/messages' element={<Messages />} />
             <Route path='/messages/:chatId' element={<Messages />} />
+            <Route path='/notifications' element={<Notifications />} />
           </Route>
         </Routes>
       </BrowserRouter>
