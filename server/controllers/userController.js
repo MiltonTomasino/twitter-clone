@@ -276,7 +276,7 @@ module.exports.followStatus = async (req, res) => {
                 }
             }
         });
-
+        
         res.status(200).json({ isFollowing: !!isFollowing})
 
     } catch (error) {
@@ -362,5 +362,34 @@ module.exports.updateRequestStatus = async (req, res) => {
     } catch (error) {
         console.log("Error updating follow request: ", error);
         res.status(500).json({ error: "Error updating follow request" });
+    }
+}
+
+module.exports.unfollowUser = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { otherUser } = req.query;
+
+        const removeRequest = await prisma.followRequest.deleteMany({
+            where: {
+                senderId: userId,
+                receiverId: otherUser
+            }
+        });
+
+        const removeFollow = await prisma.follow.delete({
+            where: {
+                followerId_followingId: {
+                    followerId: userId,
+                    followingId: otherUser
+                }
+            }
+        });
+
+        res.status(200).json({ removeRequest, removeFollow });
+
+    } catch (error) {
+        console.log("Error unfollowing user: ", error);
+        res.status(500).json({ error: "Error unfollowing user" });
     }
 }

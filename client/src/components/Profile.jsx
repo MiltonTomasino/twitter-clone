@@ -57,6 +57,17 @@ function Profile() {
 
             return res.json();
         },
+    });
+
+    const unfollowUser = useMutation({
+        mutationFn: async () => {
+            const res = await fetch(`/api/user/unfollow?otherUser=${id}`, {
+                method: "DELETE",
+                credentials: "include"
+            });
+
+            return res.json();
+        },
     })
 
 
@@ -74,7 +85,7 @@ function Profile() {
             <h1>Profile Page</h1>
             {id !== context.user.id && (
                 followLoad ? <Loading />
-                : followData?.isFollowing ? <button>unfollow</button> : <button onClick={() => sendFollowRequest.mutate()}>follow</button>
+                : followData?.isFollowing ? <button onClick={() => unfollowUser.mutate()}>unfollow</button> : <button onClick={() => sendFollowRequest.mutate()}>follow</button>
             )}
             <div className="profile-info">
                 <h1>{profileData.profile.name}</h1>

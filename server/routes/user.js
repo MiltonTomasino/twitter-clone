@@ -28,6 +28,7 @@ router.get("/user/follow-status", controller.followStatus);
 router.post("/user/follow-request", controller.followRequest);
 router.get("/user/notifications", controller.getRequests);
 router.post("/user/update-follow", controller.updateRequestStatus);
+router.delete("/user/unfollow", controller.unfollowUser);
 
 // home routes
 router.get("/user/all-posts", controller.getAllPosts);
