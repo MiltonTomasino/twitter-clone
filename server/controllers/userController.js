@@ -290,9 +290,6 @@ module.exports.followRequest = async (req, res) => {
         const userId = req.user.id;
         const { otherUser } = req.query;
 
-        console.log(`Data: ${userId}, ${otherUser}`);
-        
-
         const request = await prisma.followRequest.create({
             data: {
                 senderId: userId,
@@ -304,5 +301,66 @@ module.exports.followRequest = async (req, res) => {
     } catch (error) {
         console.log("Error sending follow request: ", error);
         res.status(500).json({ error: "Error sending follow request" });
+    }
+}
+
+module.exports.getRequests = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const requests = await prisma.followRequest.findMany({
+            where: { receiverId: userId },
+            select: {
+                id: true,
+                senderId: true,
+                sender: {
+                    select: {
+                        id: true,
+                        username: true,
+                    }
+                },
+                status: true, 
+            }
+        });
+
+        res.status(200).json({ requests });
+    } catch (error) {
+        console.log("Error fetching follow request: ", error);
+        res.status(500).json({ error: "Error fetching follow request" });
+    }
+}
+
+module.exports.updateRequestStatus = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const {isFollowing, otherUser } = req.body;
+        const status = isFollowing ? "ACCEPTED" : "REJECTED"
+
+        const updateRequest = await prisma.followRequest.update({
+            where: {
+                senderId_receiverId: {
+                    senderId: otherUser,
+                    receiverId: userId
+                }
+            },
+            data: { status: status }
+        })
+
+        let follow = null;
+
+        if (isFollowing) {
+            follow = await prisma.follow.create({
+                data: {
+                    followerId: otherUser,
+                    followingId: userId
+                }
+            });
+        }
+
+        res.status(200).json({ updateRequest, follow })
+        
+    } catch (error) {
+        console.log("Error updating follow request: ", error);
+        res.status(500).json({ error: "Error updating follow request" });
     }
 }

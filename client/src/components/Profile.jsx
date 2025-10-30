@@ -73,7 +73,8 @@ function Profile() {
         <>
             <h1>Profile Page</h1>
             {id !== context.user.id && (
-                followData?.isFollowing ? <button>unfollow</button> : <button onClick={() => sendFollowRequest.mutate()}>follow</button>
+                followLoad ? <Loading />
+                : followData?.isFollowing ? <button>unfollow</button> : <button onClick={() => sendFollowRequest.mutate()}>follow</button>
             )}
             <div className="profile-info">
                 <h1>{profileData.profile.name}</h1>
