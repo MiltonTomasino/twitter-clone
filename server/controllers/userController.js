@@ -393,3 +393,33 @@ module.exports.unfollowUser = async (req, res) => {
         res.status(500).json({ error: "Error unfollowing user" });
     }
 }
+
+module.exports.likePost = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { postId } = req.query;
+
+        const alreadyLiked = await prisma.like.findUnique({
+            where: {
+                userId_postId: {
+                    userId,
+                    postId
+                }
+            }
+        });
+
+        if (alreadyLiked) return res.status(400).json({ error: "Post already liked." });
+
+        const like = await prisma.like.create({
+            data: {
+                userId,
+                postId
+            }
+        });
+
+        res.status(200).json({ like });
+    } catch (error) {
+        console.log("Error unfollowing user: ", error);
+        res.status(500).json({ error: "Error unfollowing user" });
+    }
+}
