@@ -31,3 +31,13 @@
 .rightbar {
     border: 1px solid orange;
 }
+
+@media screen and (max-width: 768px) {
+    .content {
+        max-width: 100%;
+    }
+
+    /* .rightbar {
+        display: none;
+    } */
+}

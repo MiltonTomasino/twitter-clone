@@ -97,7 +97,7 @@ function Profile() {
                 {postData.posts.length > 0 ? (
                     postData.posts.map(post => {
                         return (
-                            <div key={post.id}>
+                            <div className="post" key={post.id}>
                                 <p>{post.text}</p>
                             </div>
                         )

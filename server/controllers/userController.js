@@ -250,11 +250,22 @@ module.exports.getAllPosts = async (req, res) => {
 
         const posts = await prisma.post.findMany({
             where: whereClause,
-            include: { user: { select: { username: true } } },
+            include: {
+                user: { select: { username: true } },
+                likes: {
+                    where: { userId },
+                    select: { id: true },
+                }
+            },
             orderBy: { createdAt: "desc" }
         });
 
-        res.status(200).json({ posts });
+        const formattedPosts = posts.map(post => ({
+            ...post,
+            likedByUser: post.likes.length > 0
+        }))
+
+        res.status(200).json({ posts: formattedPosts });
 
     } catch (error) {
         console.log("Error fetching posts: ", error);
@@ -397,7 +408,7 @@ module.exports.unfollowUser = async (req, res) => {
 module.exports.likePost = async (req, res) => {
     try {
         const userId = req.user.id;
-        const { postId } = req.query;
+        const { postId } = req.params;
 
         const alreadyLiked = await prisma.like.findUnique({
             where: {
@@ -408,7 +419,17 @@ module.exports.likePost = async (req, res) => {
             }
         });
 
-        if (alreadyLiked) return res.status(400).json({ error: "Post already liked." });
+        if (alreadyLiked) {
+            const unlike = await prisma.like.delete({
+                where: {
+                    userId_postId: {
+                        userId,
+                        postId
+                    }
+                }
+            })
+            return res.status(200).json({ liked: false });
+        };
 
         const like = await prisma.like.create({
             data: {
@@ -417,7 +438,7 @@ module.exports.likePost = async (req, res) => {
             }
         });
 
-        res.status(200).json({ like });
+        res.status(200).json({ liked: true });
     } catch (error) {
         console.log("Error unfollowing user: ", error);
         res.status(500).json({ error: "Error unfollowing user" });

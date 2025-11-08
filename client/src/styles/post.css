@@ -1,0 +1,14 @@
+.post {
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+}
+
+.like-svg, .unlike-svg {
+    width: 24px;
+    height: 24px;
+}
+
+.unlike-svg {
+    fill: red;
+}
