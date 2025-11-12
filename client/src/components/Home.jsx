@@ -71,7 +71,7 @@ function Home() {
                         console.log("Post data: ", post);
                         
                         return (
-                            <Post post={post} key={post.id}/>
+                            <Post post={post} query={["fetch-posts"]} key={post.id}/>
                         )
                     })
                 ) : (<p>No posts yet...</p>)}

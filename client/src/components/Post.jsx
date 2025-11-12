@@ -1,6 +1,6 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
-function Post({ post }) {
+function Post({ post, query }) {
 
     const queryClient = useQueryClient();
 
@@ -14,7 +14,8 @@ function Post({ post }) {
             return res.json();
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(["fetch-posts"]);
+            queryClient.invalidateQueries({ queryKey: query });
+            queryClient.invalidateQueries({ queryKey: query });
         }
     })
 

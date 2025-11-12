@@ -120,9 +120,24 @@ module.exports.getUserPosts = async (req, res) => {
     try {
             const { userId } = req.query;
 
-            const posts = await prisma.post.findMany({ where: { userId }});
+            const posts = await prisma.post.findMany({
+                where: { userId},
+                include: {
+                    user: { select: { username: true } },
+                    likes: {
+                        where: { userId },
+                        select: { id: true },
+                    }
+                },
+                orderBy: { createdAt: "desc" }
+            });
 
-            res.status(200).json({ posts });
+            const formattedPosts = posts.map(post => ({
+                ...post,
+                likedByUser: post.likes.length > 0
+            }))
+
+            res.status(200).json({ posts: formattedPosts });
 
     } catch (error) {
         console.error("Error fetching user posts: ", error);

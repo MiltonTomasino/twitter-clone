@@ -3,13 +3,14 @@ import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Loading from "./Loading";
+import Post from "./Post";
 
 function Profile() {
 
     const { profileId } = useParams();
     const context = useContext(UserContext);
 
-    const id =  profileId || context.user.id;
+    const id =  String(profileId || context.user.id);
 
     const {isLoading: profileLoading, data: profileData} = useQuery({
         queryKey: ["fetch-profile", id],
@@ -96,10 +97,10 @@ function Profile() {
             <div className="profile-posts">
                 {postData.posts.length > 0 ? (
                     postData.posts.map(post => {
+                        console.log("Post data (Profile): ", post);
+                        
                         return (
-                            <div className="post" key={post.id}>
-                                <p>{post.text}</p>
-                            </div>
+                            <Post post={post} query={["fetch-user-posts", id]} key={post.id} />
                         )
                     })
                 ) : (<p>No posts yet...</p>)}
