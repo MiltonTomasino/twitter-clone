@@ -88,3 +88,9 @@
     cursor: pointer;
 }
 
+@media screen and (max-width: 900px) {
+    .comment {
+        flex-direction: column;
+    }
+}
+

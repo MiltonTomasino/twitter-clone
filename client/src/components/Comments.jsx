@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function Comments({ post, query }) {
 
-    const [comments, setComments] = useState(post.comments || []);
     const queryClient = useQueryClient();
 
     const submitComment = useMutation({
@@ -34,7 +32,8 @@ function Comments({ post, query }) {
                         ? post.comments.map(comment => {
                             return (
                                 <div className="comment" key={comment.id}>
-                                    {comment.user.username}: <em>{comment.text}</em>
+                                    <p>{comment.user.profile.name}</p>
+                                    <p><em>{comment.text}</em></p>
                                 </div>
                             )
                         })
