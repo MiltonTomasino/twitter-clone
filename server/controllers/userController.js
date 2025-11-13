@@ -127,6 +127,15 @@ module.exports.getUserPosts = async (req, res) => {
                     likes: {
                         where: { userId },
                         select: { id: true },
+                    },
+                    comments: {
+                        include: {
+                            user: {
+                                include: {
+                                    profile: { select: { name: true } }
+                                }
+                            }
+                        }
                     }
                 },
                 orderBy: { createdAt: "desc" }
@@ -270,6 +279,15 @@ module.exports.getAllPosts = async (req, res) => {
                 likes: {
                     where: { userId },
                     select: { id: true },
+                },
+                comments: {
+                    include: {
+                        user: {
+                            include: {
+                                profile: { select: { name: true } }
+                            }
+                        }
+                    }
                 }
             },
             orderBy: { createdAt: "desc" }
@@ -457,5 +475,27 @@ module.exports.likePost = async (req, res) => {
     } catch (error) {
         console.log("Error unfollowing user: ", error);
         res.status(500).json({ error: "Error unfollowing user" });
+    }
+}
+
+module.exports.submitComment = async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const userId = req.user.id
+        
+        const { comment } = req.body;
+        await prisma.comment.create({
+            data: {
+                userId,
+                postId,
+                text: comment
+            }
+        });
+
+        res.status(200).json({ message: "Succeffully added comment to blog post" });
+
+    } catch (error) {
+        console.log("Error submitting comment: ", error);
+        res.status(500).json({ error: "Error submitting comment" });
     }
 }

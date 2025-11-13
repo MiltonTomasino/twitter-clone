@@ -74,13 +74,6 @@ function Profile() {
 
     if (profileLoading || postLoading) return <Loading />;
 
-    console.log("Profile data: ", profileData);
-    console.log("Post data: ", postData);
-    console.log("Follow status: ", followData);
-    
-    
-    
-
     return (
         <>
             <h1>Profile Page</h1>
@@ -97,8 +90,6 @@ function Profile() {
             <div className="profile-posts">
                 {postData.posts.length > 0 ? (
                     postData.posts.map(post => {
-                        console.log("Post data (Profile): ", post);
-                        
                         return (
                             <Post post={post} query={["fetch-user-posts", id]} key={post.id} />
                         )

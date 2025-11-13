@@ -19,7 +19,6 @@ router.get("/user/logout", (req, res, next) => {
 
 // profile routes
 router.get("/user/profile", controller.getProfile);
-router.get("/user/posts", controller.getUserPosts);
 router.post("/user/chat", controller.createChat);
 router.get("/user/chats", controller.getChats);
 router.post("/user/post/:postId", controller.likePost);
@@ -31,8 +30,11 @@ router.get("/user/notifications", controller.getRequests);
 router.post("/user/update-follow", controller.updateRequestStatus);
 router.delete("/user/unfollow", controller.unfollowUser);
 
-// home routes
+// post routes
 router.get("/user/all-posts", controller.getAllPosts);
 router.post("/user/post", controller.createPost);
+router.get("/user/posts", controller.getUserPosts);
+router.post("/user/post/:postId/comment", controller.submitComment);
+
 
 module.exports = router;
