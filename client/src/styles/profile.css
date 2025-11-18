@@ -1,0 +1,47 @@
+.profile {
+    border: 1px solid red;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-element > small {
+    margin-left: 10px;
+    font-size: 15px;
+}
+
+.handle {
+    display: flex;
+    align-items: center;
+}
+
+.handle input {
+    height: 40px;
+    font-size: 25px;
+    max-width: 200px;
+}
+
+form button {
+    height: 40px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: transparent;
+    border: none;
+}
+
+.edit-svg {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    opacity: 0.2;
+    cursor: pointer;
+}
+
+.edit-svg:hover {
+    opacity: 1;
+}

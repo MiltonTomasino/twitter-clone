@@ -499,3 +499,54 @@ module.exports.submitComment = async (req, res) => {
         res.status(500).json({ error: "Error submitting comment" });
     }
 }
+
+module.exports.updateName = async (req, res) => {
+    try {
+        const { name } = req.body;
+        const userId = req.user.id;
+
+        const updateName = await prisma.profile.update({
+            where: { userId },
+            data: { name }
+        })
+
+        res.status(200).json({ updateName });
+    } catch (error) {
+        console.log("Error updating profile name: ", error);
+        res.status(500).json({ error: "Error updating profile name" });
+    }
+}
+
+module.exports.updateBio = async (req, res) => {
+    try {
+        const { bio } = req.body;
+        const userId = req.user.id;
+
+        const updateBio = await prisma.profile.update({
+            where: { userId },
+            data: { bio }
+        })
+
+        res.status(200).json({ updateBio });
+    } catch (error) {
+        console.log("Error updating profile bio: ", error);
+        res.status(500).json({ error: "Error updating profile bio" });
+    }
+}
+
+module.exports.updateBday = async (req, res) => {
+    try {
+        const { birthday } = req.body;
+        const userId = req.user.id;
+
+        const updateBio = await prisma.profile.update({
+            where: { userId },
+            data: { birthday: new Date(birthday) }
+        })
+
+        res.status(200).json({ updateBio });
+    } catch (error) {
+        console.log("Error updating profile bday: ", error);
+        res.status(500).json({ error: "Error updating profile bday" });
+    }
+}
