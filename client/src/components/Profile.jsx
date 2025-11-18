@@ -140,7 +140,12 @@ function Profile() {
         onSuccess: () => {
             queryClient.invalidateQueries(["fetch-following", id]);
         }
-    })
+    });
+
+    function formatBirthday(birthday) {
+        const [year, month, day] = birthday.split("T")[0].split("-");
+        return `born: ${month}/${day}/${year}`;
+    }
 
 
     if (profileLoading || postLoading) return <Loading />;
@@ -221,7 +226,12 @@ function Profile() {
                             
                         ) : (
                             <div className="handle">
-                                <p>{profileData.profile.birthday || "no birthday yet"}</p>
+                                <p>
+                                    {profileData.profile.birthday
+                                    ? formatBirthday(profileData.profile.birthday)
+                                    : "no birthday yet"
+                                    }
+                                </p>
                                 <button className="edit-btn" onClick={() => setIsEditingBday(true)}>
                                     <svg className="edit-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <title>square-edit-outline</title>
