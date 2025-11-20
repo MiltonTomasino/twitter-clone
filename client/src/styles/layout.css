@@ -27,6 +27,7 @@
 
 .leftbar-item {
     font-size: 1.5rem;
+    cursor: pointer;
     /* text-align: center; */
 }
 
@@ -51,6 +52,14 @@
 
 .rightbar {
     border: 1px solid orange;
+}
+
+.rightbar > .user {
+    cursor: pointer;
+}
+
+.rightbar > .user:hover {
+    background-color: lightgray;
 }
 
 @media screen and (max-width: 768px) {

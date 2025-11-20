@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { UserContext } from "../context/UserContext";
+import "../styles/chat.css";
 
 let socket;
 

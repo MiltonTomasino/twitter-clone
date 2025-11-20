@@ -22,7 +22,7 @@ function Rightbar() {
         onSuccess: (data) => {
             console.log("DATA: ", data);
             
-            setUsers(data.users);
+            setUsers(data.users || []);
         }
     })
 

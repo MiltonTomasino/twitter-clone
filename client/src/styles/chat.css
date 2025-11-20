@@ -1,0 +1,22 @@
+.message-input {
+    margin-top: auto;
+}
+
+.message-input > input{
+    width: 80%;
+    height: 40px;
+    padding: 10px;
+}
+
+.message-input > button{
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: rgb(121, 121, 253);
+    height: 40px;
+    width: 20%;
+}
+
+.message-input > button:hover {
+    background-color: white;
+    color: black;
+}

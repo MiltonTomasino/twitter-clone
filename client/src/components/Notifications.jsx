@@ -36,6 +36,10 @@ function Notifications() {
     return (
         <>
             <h1>Notifs Page</h1>
+            <div className="notif-nav">
+                <button>pending</button>
+                <button>completed</button>
+            </div>
             {isLoading ? (
                 <Loading />
             ) : (
