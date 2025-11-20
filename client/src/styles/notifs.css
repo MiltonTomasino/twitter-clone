@@ -5,4 +5,9 @@
 
 .notif-nav button {
     flex-grow: 1;
+    cursor: pointer;
+}
+
+.request {
+    margin-top: 10px;
 }

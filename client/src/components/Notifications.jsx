@@ -2,11 +2,13 @@
 import { UserContext } from "../context/UserContext";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Loading from "./Loading";
+import { useState } from "react";
 import "../styles/notifs.css";
 
 function Notifications() {
 
     // const context = useContext(UserContext);
+    const [activeTab, setActveTab] = useState("PENDING");
 
     const {isLoading, data} = useQuery({
         queryKey: ["fetch-notifs"],
@@ -33,19 +35,23 @@ function Notifications() {
         }
     })
 
+    const pendingReq = data?.requests.filter(req => req.status === "PENDING");
+    const completedReq = data?.requests.filter(req => req.status !== "PENDING");
+    let listToShow = activeTab === "PENDING" ? pendingReq : completedReq;
+
 
     return (
         <>
             <h1>Notifs Page</h1>
             <div className="notif-nav">
-                <button>pending</button>
-                <button>completed</button>
+                <button onClick={() => setActveTab("PENDING")}>pending</button>
+                <button onClick={() => setActveTab("COMPLETED")}>completed</button>
             </div>
             {isLoading ? (
                 <Loading />
             ) : (
-                data.requests.length > 0 ? (
-                    data.requests.map(req => {
+                listToShow.length > 0 ? (
+                    listToShow.map(req => {
                         console.log("Request data: ", req);
                         
                         return (
