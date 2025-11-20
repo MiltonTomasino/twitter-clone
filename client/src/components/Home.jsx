@@ -83,11 +83,11 @@ function Home() {
                             {modalError ?? (
                                 <p>{modalError}</p>
                             )}
-                            <label htmlFor="user">Add User: </label>
+                            <label htmlFor="user">Your post: </label>
                             <textarea onChange={(e) => setText(e.target.value)} name="text" id="post-content"></textarea>
                             <button type="submit">create</button>
                         </form>
-                        <button onClick={() => setModalOpen(false)}>x</button>
+                        <button onClick={() => setModalOpen(false)}>cancel</button>
                     </div>
                 </div>
             )}

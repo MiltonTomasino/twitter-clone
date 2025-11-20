@@ -33,9 +33,8 @@ function Rightbar() {
 
     return (
         <>
-            <h1>Right bar</h1>
             <form className="user-search" onSubmit={handleSubmit}>
-                <label htmlFor="username">Search for User: </label>
+                <label htmlFor="username"><h2>Search for User:</h2> </label>
                 <input
                 type="text"
                 name="username"

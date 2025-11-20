@@ -2,6 +2,7 @@
 import { UserContext } from "../context/UserContext";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Loading from "./Loading";
+import "../styles/notifs.css";
 
 function Notifications() {
 

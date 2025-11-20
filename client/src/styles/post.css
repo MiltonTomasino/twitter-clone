@@ -1,8 +1,10 @@
 .post {
     border: 1px solid black;
+    border-radius: 5px;
     display: flex;
     height: 60px;
     justify-content: space-between;
+    padding: 5px;
 }
 
 .like-svg, .unlike-svg {
@@ -15,8 +17,13 @@
 }
 
 /* COMMENTS */
+.comments {
+    margin-top: 5px;
+}
+
 .comments-tab {
     border: 1px solid rgb(204, 204, 204);
+    border-radius: 5px;
     cursor: pointer;
     background-color: rgb(242, 242, 242);
 }

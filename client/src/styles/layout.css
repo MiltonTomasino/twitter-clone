@@ -1,5 +1,5 @@
 .home-page {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     height: 100vh;
 
     display: flex;
@@ -7,7 +7,7 @@
 }
 
 .content {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     min-width: 320px;
     max-width: 70%;
     flex-grow: 1;
@@ -18,7 +18,7 @@
 }
 
 .leftbar {
-    border: 1px solid blue;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -51,7 +51,9 @@
 }
 
 .rightbar {
-    border: 1px solid orange;
+    /* border: 1px solid orange; */
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 10px;
 }
 
 .rightbar > .user {

@@ -1,5 +1,12 @@
 .profile {
-    border: 1px solid red;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 5px;
+}
+
+.profile-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .profile-info {
@@ -45,4 +52,8 @@ form button {
 
 .edit-svg:hover {
     opacity: 1;
+}
+
+.profile-posts {
+    margin-top: 20px;
 }

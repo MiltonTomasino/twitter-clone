@@ -24,7 +24,22 @@
     align-items: center;
 }
 
+.modal > button {
+    width: 90%;
+}
+
 .all-posts {
-    border: 5px solid blueviolet;
+    /* border: 5px solid blueviolet; */
     flex-grow: 1;
+    margin-top: 20px;
+}
+
+.search-user {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+.search-user textarea {
+    height: 100px;
 }

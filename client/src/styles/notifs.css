@@ -1,0 +1,8 @@
+.notif-nav {
+    display: flex;
+    width: 100%;
+}
+
+.notif-nav button {
+    flex-grow: 1;
+}

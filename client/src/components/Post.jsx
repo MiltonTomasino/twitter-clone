@@ -23,7 +23,7 @@ function Post({ post, query }) {
 
     return (
 
-        <>
+        <div>
             <div className="post" key={post.id}>
                 <p>{post.text}</p>
 
@@ -57,7 +57,7 @@ function Post({ post, query }) {
                 {isOpen && <Comments post={post} query={query} />}
             </div>
 
-        </>
+        </div>
         
     )
 }
