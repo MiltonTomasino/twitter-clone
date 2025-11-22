@@ -123,7 +123,12 @@ module.exports.getUserPosts = async (req, res) => {
             const posts = await prisma.post.findMany({
                 where: { userId},
                 include: {
-                    user: { select: { username: true } },
+                    user: {
+                        select: {
+                            username: true,
+                            profile: { select: { name: true } }
+                        }
+                },
                     likes: {
                         where: { userId },
                         select: { id: true },
@@ -275,7 +280,12 @@ module.exports.getAllPosts = async (req, res) => {
         const posts = await prisma.post.findMany({
             where: whereClause,
             include: {
-                user: { select: { username: true } },
+                user: {
+                    select: {
+                        username: true,
+                        profile: { select: { name: true } }
+                    }
+                },
                 likes: {
                     where: { userId },
                     select: { id: true },

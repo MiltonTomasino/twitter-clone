@@ -31,11 +31,11 @@
     /* text-align: center; */
 }
 
-.leftbar-item:hover a {
+.leftbar-item:hover {
     color: lightgray;
 }
 
-.leftbar-item a {
+.leftbar-item {
     text-decoration: none;
     color: black;
 }

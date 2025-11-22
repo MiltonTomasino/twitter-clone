@@ -1,11 +1,32 @@
 .post {
     border: 1px solid black;
     border-radius: 5px;
-    display: flex;
-    height: 60px;
-    justify-content: space-between;
-    padding: 5px;
+    /* display: flex;
+    justify-content: space-between; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 30px 1fr;
+    padding: 10px;
+
+    max-height: 300px;
+    overflow-y: auto;
 }
+
+.post > p {
+    grid-column: 1 / span 2;
+    margin-top: 5px;
+}
+
+.post > .like {
+    justify-self: end;
+}
+
+.post-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 
 .like-svg, .unlike-svg {
     width: 24px;

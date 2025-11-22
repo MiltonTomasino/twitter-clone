@@ -21,12 +21,17 @@ function Post({ post, query }) {
         }
     })
 
+    console.log("Post data: ", post);
+    
+
     return (
 
         <div>
             <div className="post" key={post.id}>
-                <p>{post.text}</p>
-
+                <div className="post-name">
+                    <h3>{post.user.profile.name}</h3>
+                    <small>@{post.user.username}</small>
+                </div>
                 <div className="like" onClick={() => likePost.mutate(post.id)}>
                     {post.likedByUser ? (
                         <svg className="unlike-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -40,6 +45,7 @@ function Post({ post, query }) {
                         </svg>
                     )}
                 </div>
+                <p>{post.text}</p>
                 
             </div>
             <div className="comments">
